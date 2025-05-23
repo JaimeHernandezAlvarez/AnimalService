@@ -27,6 +27,7 @@ public class Animal {
     private String genero;
 
     //Test
+    //owo
     @Column(name = "estado_animal",length = 200)
     private String estado;
 }
