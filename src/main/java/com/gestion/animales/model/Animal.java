@@ -1,7 +1,6 @@
 package com.gestion.animales.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,4 +27,7 @@ public class Animal {
 
     @Column(name = "estado_animal",length = 200)
     private String estado;
+
+    @JoinColumn(name = "usuario_id")
+    private Long usuarioId;
 }
