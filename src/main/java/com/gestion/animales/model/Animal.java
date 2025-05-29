@@ -28,6 +28,6 @@ public class Animal {
     @Column(name = "estado_animal",length = 200)
     private String estado;
 
-    @JoinColumn(name = "usuario_id")
-    private Long usuarioId;
+    @Column(name = "id_usuario")
+    private Long usuario;
 }
