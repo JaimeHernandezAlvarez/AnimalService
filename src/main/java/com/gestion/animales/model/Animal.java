@@ -29,6 +29,6 @@ public class Animal {
     @Column(name = "estado_animal",length = 200)
     private String estado;
 
-    @Column(name = "id_usuario")
-    private Long usuario;
+    @Column(name = "id_propietario")
+    private Long propietario;
 }
