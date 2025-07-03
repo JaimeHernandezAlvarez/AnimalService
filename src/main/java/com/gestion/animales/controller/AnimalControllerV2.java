@@ -50,4 +50,42 @@ public class AnimalControllerV2 {
         return CollectionModel.of(animales,
             linkTo(methodOn(AnimalControllerV2.class).getAllAnimals()).withSelfRel());
     }
+
+    @Operation(summary = "Guardar nuevo animal", description = "Crea un nuevo animal y lo retorna con enlaces HATEOAS")
+    @PostMapping
+    public ResponseEntity<EntityModel<Animal>> guardar(@RequestBody Animal animal) {
+        Animal nuevo = animalService.save(animal);
+        return ResponseEntity
+                .created(linkTo(methodOn(AnimalControllerV2.class).getAnimalById(nuevo.getId())).toUri())
+                .body(assembler.toModel(nuevo));
+    }
+
+    @Operation(summary = "Actualizar un animal", description = "Actualiza los datos de un animal existente con enlaces HATEOAS")
+    @PutMapping("/{id}")
+    public ResponseEntity<EntityModel<Animal>> actualizar(@PathVariable Integer id, @RequestBody Animal animal) {
+        try {
+            Animal existente = animalService.findById(id);
+            existente.setNombre(animal.getNombre());
+            existente.setEspecie(animal.getEspecie());
+            existente.setGenero(animal.getGenero());
+            existente.setEstado(animal.getEstado());
+            existente.setPropietario(animal.getPropietario());
+
+            Animal actualizado = animalService.save(existente);
+            return ResponseEntity.ok(assembler.toModel(actualizado));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Operation(summary = "Eliminar animal", description = "Elimina un animal de la base de datos por su ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        try {
+            animalService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
